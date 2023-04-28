@@ -41,6 +41,20 @@ namespace R5T.L0031
             contextDestructor(context);
         }
 
+        public async Task In_Context<TContext>(
+            Func<TContext> contextConstructor,
+            IEnumerable<Func<TContext, Task>> contextOperationsSequence,
+            Func<TContext, Task> contextDestructor)
+        {
+            var context = contextConstructor();
+
+            await Instances.ActionOperator.Run(
+                context,
+                contextOperationsSequence);
+
+            await contextDestructor(context);
+        }
+
         public void In_Context<TContext>(
             ISynchronousContextConstructor<TContext> contextConstructor,
             ISynchronousContextOperationsSequence<TContext> contextOperationsSequence,
