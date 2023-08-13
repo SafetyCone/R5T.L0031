@@ -13,6 +13,42 @@ namespace R5T.L0031
     [FunctionalityMarker]
     public partial interface IContextOperator : IFunctionalityMarker
     {
+        public async Task In_Context<TContext>(
+            TContext context,
+            IEnumerable<Func<TContext, Task>> contextOperationsSequence,
+            Func<TContext, Task> contextDestructor)
+        {
+            await Instances.ActionOperator.Run(
+                context,
+                contextOperationsSequence);
+
+            await contextDestructor(context);
+        }
+
+        public async Task In_Context<TContext>(
+            TContext context,
+            IEnumerable<Func<TContext, Task>> contextOperationsSequence,
+            Action<TContext> contextDestructor)
+        {
+            await Instances.ActionOperator.Run(
+                context,
+                contextOperationsSequence);
+
+            contextDestructor(context);
+        }
+
+        public void In_Context<TContext>(
+            TContext context,
+            IEnumerable<Action<TContext>> contextOperationsSequence,
+            Action<TContext> contextDestructor)
+        {
+            Instances.ActionOperator.Run(
+                context,
+                contextOperationsSequence);
+
+            contextDestructor(context);
+        }
+
         public void In_Context<TContext>(
             Func<TContext> contextConstructor,
             IEnumerable<Action<TContext>> contextOperationsSequence,
