@@ -42,7 +42,7 @@ namespace R5T.L0031
             IEnumerable<Action<TContext>> contextOperationsSequence,
             Action<TContext> contextDestructor)
         {
-            Instances.ActionOperator.Run(
+            Instances.ActionOperator.Run_Actions(
                 context,
                 contextOperationsSequence);
 
@@ -56,7 +56,7 @@ namespace R5T.L0031
         {
             var context = contextConstructor();
 
-            Instances.ActionOperator.Run(
+            Instances.ActionOperator.Run_Actions(
                 context,
                 contextOperationsSequence);
 
@@ -107,7 +107,7 @@ namespace R5T.L0031
             TContext context,
             IEnumerable<Action<TContext>> contextOperationsSequence)
         {
-            Instances.ActionOperator.Run(
+            Instances.ActionOperator.Run_Actions(
                 context,
                 contextOperationsSequence);
         }
